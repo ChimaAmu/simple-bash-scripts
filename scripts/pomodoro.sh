@@ -8,6 +8,26 @@
 wseconds="${1:-25}*60";
 pseconds="${2:-wseconds/300}*60";
 
+usage()
+{
+    echo "Usage: $0 {focus time length} {break length}"
+    echo "Times given should be integers representing minutes"
+    echo "Defaults: focus time length = 25 minutes"
+    echo "          break time length = 5 minutes"
+}
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ] || [ "$#" -gt 2 ]; then
+    echo "The Pomodoro Technique is a time management method developed by Francesco Cirillo in the late 1980s."
+    usage
+    exit 0
+fi
+
+integers='^[0-9]+$'
+if ! [[ "$1" =~ $integers ]] || ! [[ "$2" =~ $integers ]]; then
+    usage
+    exit 1
+fi
+
 # Check os and behave accordingly
 if [ "$(uname)" == "Darwin" ]; then
     while true; do
